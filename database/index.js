@@ -32,6 +32,11 @@ const logInUser = (userInfoObj) => {
   return connection.promise().query(`SELECT * FROM users WHERE userEmail = '${userInfoObj.email}'`)
   .then((data) => {
     let pw = data[0][0].userPassword
+    console.log('CLIENT NAME', userInfoObj.name)
+    console.log('DB NAME', data[0][0].userName)
+    if (userInfoObj.name !== data[0][0].userName) {
+      throw err;
+    }
     return bcrypt.compare(userInfoObj.password, pw)
     .then((res) => {
       return res;
